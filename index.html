@@ -84,25 +84,31 @@
 <script>
     async function loadPosts() {
         const container = document.getElementById('posts-container');
-        const fileNames = ['test.json']; // Add your JSON file names here
+        const fileNames = ['posts1.json', 'posts2.json']; // JSON file names in the 'data' folder
 
         for (const fileName of fileNames) {
-            const response = await fetch(`data/${fileName}`);
-            const posts = await response.json();
-
-            posts.forEach(post => {
-                const postElement = document.createElement('article');
-                postElement.classList.add('post');
-                postElement.innerHTML = `
-                    <h2>${post.title}</h2>
-                    <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
-                    <p>${post.content}</p>
-                `;
-                container.appendChild(postElement);
-            });
+            try {
+                const response = await fetch(`data/${fileName}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const posts = await response.json();
+                
+                posts.forEach(post => {
+                    const postElement = document.createElement('article');
+                    postElement.classList.add('post');
+                    postElement.innerHTML = `
+                        <h2>${post.title}</h2>
+                        <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
+                        <p>${post.content}</p>
+                    `;
+                    container.appendChild(postElement);
+                });
+            } catch (error) {
+                console.error(`Failed to load ${fileName}:`, error);
+            }
         }
     }
-
     document.addEventListener('DOMContentLoaded', loadPosts);
 </script>
 
