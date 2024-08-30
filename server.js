@@ -1,44 +1,69 @@
 const express = require('express');
-const path = require('path');
 const fs = require('fs');
-const app = express();
-const PORT = 3000;
+const path = require('path');
+const bodyParser = require('body-parser');
 
-// Serve static files from the 'public' directory
+const app = express();
+const port = 3000;
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve the main HTML file
+// Serve the index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Serve combined JSON data
-app.get('/api/posts', (req, res) => {
-    const dataDir = path.join(__dirname, 'public', 'data');
-    
-    fs.readdir(dataDir, (err, files) => {
+// Serve the admin panel
+app.get('/admin-panel', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin-panel.html'));
+});
+
+// Serve the add-post form
+app.get('/add-post', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'add-post.html'));
+});
+
+// Handle form submissions
+app.post('/add-post', (req, res) => {
+    const { title, author, content } = req.body;
+
+    // Read existing posts from JSON file
+    fs.readFile(path.join(__dirname, 'data', 'posts.json'), 'utf8', (err, data) => {
         if (err) {
-            return res.status(500).send('Unable to read data directory');
+            console.error('Error reading file:', err);
+            return res.status(500).send('Internal Server Error');
         }
 
-        const jsonFiles = files.filter(file => file.endsWith('.json'));
-        let posts = [];
+        let posts;
+        try {
+            posts = JSON.parse(data).posts;
+        } catch (err) {
+            console.error('Error parsing JSON:', err);
+            return res.status(500).send('Internal Server Error');
+        }
 
-        jsonFiles.forEach((file, index) => {
-            const filePath = path.join(dataDir, file);
-            
-            const fileContent = fs.readFileSync(filePath, 'utf-8');
-            posts = posts.concat(JSON.parse(fileContent));
+        // Add new post to the posts array
+        posts.push({
+            title,
+            date: new Date().toLocaleDateString(),
+            content
+        });
 
-            // Send response after all files are read
-            if (index === jsonFiles.length - 1) {
-                res.json(posts);
+        // Write updated posts array back to JSON file
+        fs.writeFile(path.join(__dirname, 'data', 'posts.json'), JSON.stringify({ posts }, null, 2), 'utf8', (err) => {
+            if (err) {
+                console.error('Error writing file:', err);
+                return res.status(500).send('Internal Server Error');
             }
+            // Redirect to the admin panel page after successful post addition
+            res.redirect('/admin-panel');
         });
     });
 });
 
 // Start the server
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
 });
