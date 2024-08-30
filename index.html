@@ -84,7 +84,7 @@
 <script>
     async function loadPosts() {
         const container = document.getElementById('posts-container');
-        const fileNames = ['test.json','test2.json']; // Replace with your actual file names
+        const fileNames = ['test.json']; // Replace with your actual file names
 
         for (const fileName of fileNames) {
             try {
@@ -92,11 +92,11 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                const posts = await response.json();
-
-                // Check if the data is an array
-                if (Array.isArray(posts)) {
-                    posts.forEach(post => {
+                const data = await response.json();
+                
+                // Check if the data is an object and contains a posts array
+                if (data && Array.isArray(data.posts)) {
+                    data.posts.forEach(post => {
                         const postElement = document.createElement('article');
                         postElement.classList.add('post');
                         postElement.innerHTML = `
@@ -107,7 +107,7 @@
                         container.appendChild(postElement);
                     });
                 } else {
-                    console.error(`Expected an array but got ${typeof posts}`);
+                    console.error(`Expected an object with a posts array but got ${typeof data}`);
                 }
             } catch (error) {
                 console.error(`Failed to load ${fileName}:`, error);
@@ -117,6 +117,7 @@
 
     document.addEventListener('DOMContentLoaded', loadPosts);
 </script>
+
 
 
 </body>
