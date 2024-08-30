@@ -84,7 +84,7 @@
 <script>
     async function loadPosts() {
         const container = document.getElementById('posts-container');
-        const fileNames = ['test.json']; // JSON file names in the 'data' folder
+        const fileNames = ['test.json']; // Replace with your actual file names
 
         for (const fileName of fileNames) {
             try {
@@ -93,24 +93,31 @@
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const posts = await response.json();
-                
-                posts.forEach(post => {
-                    const postElement = document.createElement('article');
-                    postElement.classList.add('post');
-                    postElement.innerHTML = `
-                        <h2>${post.title}</h2>
-                        <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
-                        <p>${post.content}</p>
-                    `;
-                    container.appendChild(postElement);
-                });
+
+                // Check if the data is an array
+                if (Array.isArray(posts)) {
+                    posts.forEach(post => {
+                        const postElement = document.createElement('article');
+                        postElement.classList.add('post');
+                        postElement.innerHTML = `
+                            <h2>${post.title}</h2>
+                            <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
+                            <p>${post.content}</p>
+                        `;
+                        container.appendChild(postElement);
+                    });
+                } else {
+                    console.error(`Expected an array but got ${typeof posts}`);
+                }
             } catch (error) {
                 console.error(`Failed to load ${fileName}:`, error);
             }
         }
     }
+
     document.addEventListener('DOMContentLoaded', loadPosts);
 </script>
+
 
 </body>
 </html>
