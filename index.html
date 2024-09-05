@@ -6,61 +6,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sophie Steele's Horror Reels</title>
     <style>
-        /* Apple-like minimal font from Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
 
+        /* General Styles */
         body {
             font-family: 'Helvetica Neue', sans-serif;
-            background-color: #fafafa; /* Very light background */
-            color: #1d1d1f; /* Apple-like dark text color */
+            background-color: #fafafa;
+            color: #1d1d1f;
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        header {
-            background: white;
-            color: black;
-            padding: 40px 0;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0; /* Soft bottom border */
+        /* Fullscreen preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1d1d1f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.8rem;
-            font-weight: 600;
+        /* Film reel animation container */
+        .camera-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        header p {
-            font-size: 1.2rem;
+        .reel-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .reel {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            border-radius: 50%;
+            border: 8px solid #333;
+            border-top-color: #e53935;
+            border-right-color: #f2f2f2;
+            border-bottom-color: #f2f2f2;
+            border-left-color: #e53935;
+            animation: spin 3s linear infinite;
+            margin: 0 10px;
+        }
+
+        .reel:before,
+        .reel:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            border: 6px solid #333;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .reel:before {
+            width: 40px;
+            height: 40px;
+            border: 6px solid #333;
+        }
+
+        /* Rectangle and triangle to simulate camera */
+        .camera-body {
+            width: 180px;
+            height: 80px;
+            background-color: #333;
+            position: relative;
+            border-radius: 10px 10px 0 0;
             margin-top: 10px;
-            font-weight: 400;
-            color: #6e6e73; /* Subtle text color */
+        }
+
+        .camera-body::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid #333; /* Adjusted to left for a left-pointing triangle */
+            transform: translateY(-50%) rotate(180deg); /* Remove rotation to point left */
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Fade-in for main content */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+        }
+
+        header, nav, .container, footer {
+            display: block;
+        }
+
+        /* Styling for header, nav, posts, etc. */
+        header {
+            text-align: center;
+            padding: 50px 0;
+            font-size: 2rem; /* Reduced font size */
+            color: black;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         nav {
-            display: flex;
-            justify-content: center;
-            background: white;
-            padding: 20px 0;
-            border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 50px;
         }
 
         nav a {
-            color: #1d1d1f;
+            margin: 0 15px;
+            color: #0071e3;
             text-decoration: none;
-            margin: 0 20px;
-            font-weight: 400;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            transition: color 0.3s ease, border-bottom 0.3s ease; /* Added transition for smooth effect */
         }
 
         nav a:hover {
-            color: #0071e3; /* Apple-like blue hover effect */
+            color: #8400ff; /* Change color on hover */
+            border-bottom: 2px solid #8400ff; /* Underline effect on hover */
         }
 
         .container {
@@ -71,95 +161,90 @@
 
         .post {
             background: white;
-            padding: 40px;
-            margin-bottom: 40px;
+            padding: 20px;
+            margin-bottom: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .post:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        }
-
-        .post h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #1d1d1f;
-            margin-bottom: 20px;
-        }
-
-        .post p {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .post p strong {
-            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         footer {
             text-align: center;
-            padding: 40px;
-            background: #f5f5f7;
-            color: #6e6e73;
+            padding: 20px;
+            background-color: #f5f5f7;
             font-size: 0.9rem;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        /* Smooth hover effects on nav and posts */
-        .container, nav, header {
-            transition: all 0.4s ease;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.2rem;
-            }
-
-            nav {
-                font-size: 0.9rem;
-                padding: 15px 0;
-            }
-
-            .post {
-                padding: 30px;
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <header>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="camera-container">
+            <div class="reel-container">
+                <div class="reel"></div>
+                <div class="reel"></div>
+            </div>
+            <div class="camera-body"></div>
+        </div>
+    </div>
+
+    <!-- Main content (hidden initially) -->
+    <header class="fade-in">
         <h1>Sophie Steele's Horror Reels</h1>
-        <p>Dive into the darkest depths of cinema with reviews, analyses, and more</p>
     </header>
 
-    <nav>
+    <nav class="fade-in">
         <a href="index.html">Home</a>
         <a href="public/about.html">About</a>
         <a href="public/contact.html">Contact</a>
     </nav>
 
-    <div class="container" id="posts-container">
+    <div class="container fade-in" id="posts-container">
         <!-- Posts will be dynamically inserted here -->
     </div>
 
-    <footer>
+    <footer class="fade-in">
         <p>&copy; 2024 Sophie Steele's Horror Reels. All rights reserved.</p>
     </footer>
 
     <script>
+        // Wait for the full page to load
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            const fadeElements = document.querySelectorAll('.fade-in');
+
+            // Check if the preloader has already been shown in this session
+            if (!sessionStorage.getItem('preloaderShown')) {
+                // If not shown, display the preloader and set the flag
+                setTimeout(() => {
+                    preloader.style.opacity = '0'; // Start fading out the preloader
+                    fadeElements.forEach(el => {
+                        el.classList.add('visible'); // Fade in the main content
+                    });
+
+                    // Remove preloader from view after fade-out
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 500); // 500ms fade-out duration
+
+                }, 3000); // Keep the preloader for 3 seconds (to match the reel's spin time)
+
+                // Set the flag so that the preloader is not shown again in this session
+                sessionStorage.setItem('preloaderShown', 'true');
+            } else {
+                // If preloader has been shown, immediately show the main content
+                preloader.style.display = 'none';
+                fadeElements.forEach(el => {
+                    el.classList.add('visible'); // Fade in the main content
+                });
+            }
+        });
+
+        // Load posts as before (optional)
         async function loadPosts() {
             const container = document.getElementById('posts-container');
-            const fileNames = ['posts.json']; // Replace with your actual file names
+            const fileNames = ['posts.json'];
 
             for (const fileName of fileNames) {
                 try {
@@ -169,17 +254,15 @@
                     }
                     const data = await response.json();
 
-                    // Check if the data is an object and contains a posts array
                     if (data && Array.isArray(data.posts)) {
-                        // Reverse the posts array to display in reverse order
                         data.posts.reverse().forEach(post => {
                             const postElement = document.createElement('article');
                             postElement.classList.add('post');
                             postElement.innerHTML = `
-                        <h2>${post.title}</h2>
-                        <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
-                        <p>${post.content}</p>
-                    `;
+                                <h2>${post.title}</h2>
+                                <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
+                                <p>${post.content}</p>
+                            `;
                             container.appendChild(postElement);
                         });
                     } else {
@@ -194,8 +277,6 @@
         document.addEventListener('DOMContentLoaded', loadPosts);
 
     </script>
-
-
 
 </body>
 
