@@ -1,139 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Sophie Steele's Horror Reels</title>
+    <title>Sophie Steele's Horror Reels</title>
     <style>
+        /* Apple-like minimal font from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #fafafa; /* Very light background */
+            color: #1d1d1f; /* Apple-like dark text color */
             margin: 0;
             padding: 0;
             line-height: 1.6;
         }
 
         header {
-            background-color: #1a1a1a;
-            color: #ff4545;
-            padding: 30px 20px;
+            background: white;
+            color: black;
+            padding: 40px 0;
             text-align: center;
-            border-bottom: 4px solid #ff4545;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid #e0e0e0; /* Soft bottom border */
         }
 
         header h1 {
-            font-size: 2.5em;
             margin: 0;
+            font-size: 2.8rem;
+            font-weight: 600;
         }
 
         header p {
-            font-size: 1.2em;
-            margin: 10px 0 0;
-            opacity: 0.9;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            font-weight: 400;
+            color: #6e6e73; /* Subtle text color */
         }
 
         nav {
             display: flex;
             justify-content: center;
-            background: #2b2b2b;
-            padding: 15px 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            background: white;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            font-size: 1rem;
         }
 
         nav a {
-            color: #e0e0e0;
+            color: #1d1d1f;
             text-decoration: none;
             margin: 0 20px;
-            font-weight: bold;
+            font-weight: 400;
             transition: color 0.3s ease;
         }
 
         nav a:hover {
-            color: #ff4545;
+            color: #0071e3; /* Apple-like blue hover effect */
         }
 
         .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
         }
 
-        .about-content {
-            text-align: center;
-            max-width: 800px;
-        }
-
-        .about-content h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #ff4545;
-        }
-
-        .about-content p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-
-        .about-content p.lead {
-            font-size: 1.4em;
-            font-weight: bold;
+        .post {
+            background: white;
+            padding: 40px;
             margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .button-container {
-            margin-top: 20px;
+        .post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
         }
 
-        .button-container a {
-            background-color: #ff4545;
-            color: #fff;
-            padding: 15px 30px;
-            text-decoration: none;
-            font-size: 1em;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+        .post h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 20px;
         }
 
-        .button-container a:hover {
-            background-color: #ff6565;
-            transform: translateY(-3px);
+        .post p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .post p strong {
+            font-weight: 600;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            background: #2b2b2b;
-            color: #e0e0e0;
-            font-size: 0.9em;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            background: #f5f5f7;
+            color: #6e6e73;
+            font-size: 0.9rem;
         }
 
         footer p {
             margin: 0;
         }
+
+        /* Smooth hover effects on nav and posts */
+        .container, nav, header {
+            transition: all 0.4s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            nav {
+                font-size: 0.9rem;
+                padding: 15px 0;
+            }
+
+            .post {
+                padding: 30px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>About Sophie Steele's Horror Reels</h1>
-    <p>Explore the dark corners of cinema with a true horror enthusiast</p>
-</header>
+    <header>
+        <h1>Sophie Steele's Horror Reels</h1>
+        <p></p>
+    </header>
 
-<nav>
-    <a href="../index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-</nav>
-
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
 <div class="container">
     <div class="about-content">
         <h2>Welcome to the Dark Side of Cinema</h2>
