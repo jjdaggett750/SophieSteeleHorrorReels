@@ -8,6 +8,160 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
 
+        /* Fullscreen preloader for film camera */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1d1d1f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .camera-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .reel-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .reel {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            border-radius: 50%;
+            border: 8px solid #333;
+            border-top-color: #e53935;
+            border-right-color: #f2f2f2;
+            border-bottom-color: #f2f2f2;
+            border-left-color: #e53935;
+            animation: spin 3s linear infinite;
+            margin: 0 10px;
+        }
+
+        .reel:before,
+        .reel:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            border: 6px solid #333;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .reel:before {
+            width: 40px;
+            height: 40px;
+            border: 6px solid #333;
+        }
+
+        /* Rectangle and triangle to simulate camera */
+        .camera-body {
+            width: 180px;
+            height: 80px;
+            background-color: #333;
+            position: relative;
+            border-radius: 10px 10px 0 0;
+            margin-top: 10px;
+        }
+
+        .camera-body::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid #333;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Animation for the film reel sliding across the screen */
+        .reel-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            display: none;
+            /* Hidden by default */
+        }
+
+        /* Film reel element */
+        .reel-animation .reel {
+            width: 100px;
+            height: 100px;
+            border: 8px solid #333;
+            border-top-color: #e53935;
+            border-right-color: #f2f2f2;
+            border-bottom-color: #f2f2f2;
+            border-left-color: #e53935;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Animation for sliding to the left */
+        .reel-animation.left .reel {
+            animation: spin-left 1s linear forwards;
+        }
+
+        /* Animation for sliding to the right */
+        .reel-animation.right .reel {
+            animation: spin-right 1s linear forwards;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin-left {
+            from {
+                transform: translateX(100vw) rotate(0deg);
+            }
+
+            to {
+                transform: translateX(0) rotate(360deg);
+            }
+        }
+
+        @keyframes spin-right {
+            from {
+                transform: translateX(-100vw) rotate(0deg);
+            }
+
+            to {
+                transform: translateX(0) rotate(360deg);
+            }
+        }
+
+
         /* General Styles */
         body {
             font-family: 'Helvetica Neue', sans-serif;
@@ -102,117 +256,135 @@
 
 <body>
 
-    <!-- Header -->
-    <header class="fade-in">
-        <h1>Sophie Steele's Horror Reels</h1>
-    </header>
+    <body>
+        <!-- Preloader -->
+        <div id="preloader">
+            <div class="camera-container">
+                <div class="reel-container">
+                    <div class="reel"></div>
+                    <div class="reel"></div>
+                </div>
+                <div class="camera-body"></div>
+            </div>
+        </div>
 
-    <!-- Navigation Menu -->
-    <nav class="fade-in">
-        <a href="index.html">Home</a>
-        <a href="public/about.html">About</a>
-        <a href="public/contact.html">Contact</a>
-    </nav>
+        <!-- Reel Animation -->
+        <div id="reel-animation" class="reel-animation">
+            <div class="reel"></div>
+        </div>
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Search posts...">
-    </div>
+        <!-- Header -->
+        <header class="fade-in">
+            <h1>Sophie Steele's Horror Reels</h1>
+        </header>
 
-    <!-- Main content -->
-    <div class="container fade-in" id="posts-container">
-        <!-- Posts will be dynamically inserted here -->
-    </div>
+        <!-- Navigation Menu -->
+        <nav class="fade-in">
+            <a href="index.html" data-direction="left">Home</a>
+            <a href="public/about.html" data-direction="right">About</a>
+            <a href="public/contact.html" data-direction="left">Contact</a>
+        </nav>
 
-    <footer class="fade-in">
-        <p>&copy; 2024 Sophie Steele's Horror Reels. All rights reserved.</p>
-    </footer>
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search posts...">
+        </div>
 
-    <script>
-        // Search Functionality
-        document.getElementById('search-input').addEventListener('input', function () {
-            const query = this.value.toLowerCase();
-            const posts = document.querySelectorAll('.post');
+        <!-- Main content -->
+        <div class="container fade-in" id="posts-container">
+            <!-- Posts will be dynamically inserted here -->
+        </div>
 
-            posts.forEach(post => {
-                const title = post.querySelector('h2').textContent.toLowerCase();
-                const content = post.querySelector('p:last-child').textContent.toLowerCase();
+        <footer class="fade-in">
+            <p>&copy; 2024 Sophie Steele's Horror Reels. All rights reserved.</p>
+        </footer>
 
-                if (title.includes(query) || content.includes(query)) {
-                    post.style.display = 'block';
+        <script>
+            // Wait for the full page to load
+            window.addEventListener('load', function () {
+                const preloader = document.getElementById('preloader');
+                const fadeElements = document.querySelectorAll('.fade-in');
+
+                // Check if the preloader has already been shown in this session
+                if (!sessionStorage.getItem('preloaderShown')) {
+                    // If not shown, display the preloader and set the flag
+                    setTimeout(() => {
+                        preloader.style.opacity = '0'; // Start fading out the preloader
+                        fadeElements.forEach(el => {
+                            el.classList.add('visible'); // Fade in the main content
+                        });
+
+                        // Remove preloader from view after fade-out
+                        setTimeout(() => {
+                            preloader.style.display = 'none';
+                        }, 500); // 500ms fade-out duration
+
+                    }, 3000); // Keep the preloader for 3 seconds (to match the reel's spin time)
+
+                    // Set the flag so that the preloader is not shown again in this session
+                    sessionStorage.setItem('preloaderShown', 'true');
                 } else {
-                    post.style.display = 'none';
-                }
-            });
-        });
-
-        // Wait for the full page to load
-        window.addEventListener('load', function () {
-            const preloader = document.getElementById('preloader');
-            const fadeElements = document.querySelectorAll('.fade-in');
-
-            // Check if the preloader has already been shown in this session
-            if (!sessionStorage.getItem('preloaderShown')) {
-                // If not shown, display the preloader and set the flag
-                setTimeout(() => {
-                    preloader.style.opacity = '0'; // Start fading out the preloader
+                    // If preloader has been shown, immediately show the main content
+                    preloader.style.display = 'none';
                     fadeElements.forEach(el => {
                         el.classList.add('visible'); // Fade in the main content
                     });
+                }
+            });
 
-                    // Remove preloader from view after fade-out
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                    }, 500); // 500ms fade-out duration
+            // Search Functionality
+            document.getElementById('search-input').addEventListener('input', function () {
+                const query = this.value.toLowerCase();
+                const posts = document.querySelectorAll('.post');
 
-                }, 3000); // Keep the preloader for 3 seconds (to match the reel's spin time)
+                posts.forEach(post => {
+                    const title = post.querySelector('h2').textContent.toLowerCase();
+                    const content = post.querySelector('p:last-child').textContent.toLowerCase();
 
-                // Set the flag so that the preloader is not shown again in this session
-                sessionStorage.setItem('preloaderShown', 'true');
-            } else {
-                // If preloader has been shown, immediately show the main content
-                preloader.style.display = 'none';
-                fadeElements.forEach(el => {
-                    el.classList.add('visible'); // Fade in the main content
-                });
-            }
-        });
-
-        // Load posts as before (optional)
-        async function loadPosts() {
-            const container = document.getElementById('posts-container');
-            const fileNames = ['posts.json'];
-
-            for (const fileName of fileNames) {
-                try {
-                    const response = await fetch(`data/${fileName}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    const data = await response.json();
-
-                    if (data && Array.isArray(data.posts)) {
-                        data.posts.reverse().forEach(post => {
-                            const postElement = document.createElement('article');
-                            postElement.classList.add('post');
-                            postElement.innerHTML = `
-                                <h2>${post.title}</h2>
-                                <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
-                                <p>${post.content}</p>
-                            `;
-                            container.appendChild(postElement);
-                        });
+                    if (title.includes(query) || content.includes(query)) {
+                        post.style.display = 'block';
                     } else {
-                        console.error(`Expected an object with a posts array but got ${typeof data}`);
+                        post.style.display = 'none';
                     }
-                } catch (error) {
-                    console.error(`Failed to load ${fileName}:`, error);
+                });
+            });
+
+            // Load posts as before (optional)
+            async function loadPosts() {
+                const container = document.getElementById('posts-container');
+                const fileNames = ['posts.json'];
+
+                for (const fileName of fileNames) {
+                    try {
+                        const response = await fetch(`data/${fileName}`);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        const data = await response.json();
+
+                        if (data && Array.isArray(data.posts)) {
+                            data.posts.reverse().forEach(post => {
+                                const postElement = document.createElement('article');
+                                postElement.classList.add('post');
+                                postElement.innerHTML = `
+                                    <h2>${post.title}</h2>
+                                    <p><strong>Posted on:</strong> ${post.date} by Sophie Steele</p>
+                                    <p>${post.content}</p>
+                                `;
+                                container.appendChild(postElement);
+                            });
+                        } else {
+                            console.error(`Expected an object with a posts array but got ${typeof data}`);
+                        }
+                    } catch (error) {
+                        console.error(`Failed to load ${fileName}:`, error);
+                    }
                 }
             }
-        }
 
-        document.addEventListener('DOMContentLoaded', loadPosts);
-    </script>
-</body>
+            document.addEventListener('DOMContentLoaded', loadPosts);
+        </script>
+    </body>
+
 
 </html>
