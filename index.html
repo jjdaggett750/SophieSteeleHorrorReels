@@ -9,9 +9,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
 
         /* General Styles */
-        @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;600&display=swap');
-
-        /* General Styles */
         body {
             font-family: 'Helvetica Neue', sans-serif;
             background-color: #fafafa;
@@ -22,132 +19,22 @@
             overflow-x: hidden;
         }
 
-        /* Fullscreen preloader */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1d1d1f;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
-
-        /* Film reel animation container */
-        .camera-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .reel-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .reel {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            border-radius: 50%;
-            border: 8px solid #333;
-            border-top-color: #e53935;
-            border-right-color: #f2f2f2;
-            border-bottom-color: #f2f2f2;
-            border-left-color: #e53935;
-            animation: spin 3s linear infinite;
-            margin: 0 10px;
-        }
-
-        .reel:before,
-        .reel:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 60px;
-            height: 60px;
-            border: 6px solid #333;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .reel:before {
-            width: 40px;
-            height: 40px;
-            border: 6px solid #333;
-        }
-
-        /* Rectangle and triangle to simulate camera */
-        .camera-body {
-            width: 180px;
-            height: 80px;
-            background-color: #333;
-            position: relative;
-            border-radius: 10px 10px 0 0;
-            margin-top: 10px;
-        }
-
-        .camera-body::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -20px;
-            width: 0;
-            height: 0;
-            border-top: 20px solid transparent;
-            border-bottom: 20px solid transparent;
-            border-left: 20px solid #333;
-            /* Adjusted to left for a left-pointing triangle */
-            transform: translateY(-50%) rotate(180deg);
-            /* Remove rotation to point left */
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Fade-in for main content */
-        .fade-in {
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-        }
-
-        header,
-        nav,
-        .container,
-        footer {
-            display: block;
-        }
-
-        /* Styling for header, nav, posts, etc. */
         header {
             text-align: center;
-            padding: 50px 0;
+            padding: 50px 20px;
             font-size: 1.5rem;
-            /* Adjusted font size */
             color: black;
             border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            /* Ensure the header is positioned normally */
+            z-index: 2;
+            /* Ensure header is above other elements */
         }
 
         nav {
             text-align: center;
-            margin-bottom: 50px;
+            margin: 10px 0;
+            /* Adjust margin to space out navigation */
         }
 
         nav a {
@@ -156,19 +43,39 @@
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease, border-bottom 0.3s ease;
-            /* Added transition for smooth effect */
         }
 
         nav a:hover {
             color: #005eff;
-            /* Change color on hover */
             border-bottom: 2px solid #005eff;
-            /* Underline effect on hover */
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #e0e0e0;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+            /* Changed to relative positioning */
+            margin: 10px 0 20px;
+            /* Space below navigation and above posts */
+            z-index: 1;
+            /* Ensure it is below header and nav */
+        }
+
+        .search-bar input {
+            width: 100%;
+            max-width: 600px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
         }
 
         .container {
             max-width: 1100px;
-            margin: 50px auto;
+            margin: 0 auto;
             padding: 0 20px;
         }
 
@@ -179,20 +86,16 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            /* Added transition for smooth hover effect */
         }
 
         .post:hover {
             transform: translateY(-5px);
-            /* Slight lift effect on hover */
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            /* Enhanced shadow on hover */
         }
 
         .post h2 {
             color: #e53935;
             font-size: 1.25rem;
-            /* Adjusted font size for titles */
         }
 
         footer {
@@ -206,28 +109,24 @@
 
 <body>
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="camera-container">
-            <div class="reel-container">
-                <div class="reel"></div>
-                <div class="reel"></div>
-            </div>
-            <div class="camera-body"></div>
-        </div>
-    </div>
-
-    <!-- Main content (hidden initially) -->
+    <!-- Header -->
     <header class="fade-in">
         <h1>Sophie Steele's Horror Reels</h1>
     </header>
 
+    <!-- Navigation Menu -->
     <nav class="fade-in">
         <a href="index.html">Home</a>
         <a href="public/about.html">About</a>
         <a href="public/contact.html">Contact</a>
     </nav>
 
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search posts...">
+    </div>
+
+    <!-- Main content -->
     <div class="container fade-in" id="posts-container">
         <!-- Posts will be dynamically inserted here -->
     </div>
@@ -237,6 +136,23 @@
     </footer>
 
     <script>
+        // Search Functionality
+        document.getElementById('search-input').addEventListener('input', function () {
+            const query = this.value.toLowerCase();
+            const posts = document.querySelectorAll('.post');
+
+            posts.forEach(post => {
+                const title = post.querySelector('h2').textContent.toLowerCase();
+                const content = post.querySelector('p:last-child').textContent.toLowerCase();
+
+                if (title.includes(query) || content.includes(query)) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        });
+
         // Wait for the full page to load
         window.addEventListener('load', function () {
             const preloader = document.getElementById('preloader');
@@ -303,9 +219,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', loadPosts);
-
     </script>
-
 </body>
 
 </html>
