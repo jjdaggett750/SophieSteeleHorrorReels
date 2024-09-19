@@ -80,46 +80,32 @@
             margin-bottom: 20px;
         }
 
-        .contact-link {
-            display: inline-block;
-            margin: 10px 0;
-            padding: 12px 20px;
-            color: white;
+        .icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            margin: 0 10px;
             background-color: #e53935;
-            border: none;
-            border-radius: 8px;
+            border-radius: 50%;
+            color: #ffffff;
             text-decoration: none;
-            font-weight: 600;
+            font-size: 1.5rem;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .contact-link:hover {
+        .icon-link:hover {
             background-color: #b71c1c;
             transform: translateY(-3px);
         }
 
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 15px;
-            color: #ffffff;
+        .icon-link.instagram {
             background-color: #005eff;
-            border: none;
-            border-radius: 50%;
-            text-decoration: none;
-            font-size: 1.2rem;
-            margin: 0 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .social-link:hover {
+        .icon-link.instagram:hover {
             background-color: #0038c5;
-            transform: translateY(-3px);
-        }
-
-        .social-link i {
-            display: block;
         }
 
         footer {
@@ -129,6 +115,8 @@
             font-size: 0.9rem;
         }
     </style>
+    <!-- FontAwesome CSS Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -146,8 +134,11 @@
     <div class="container">
         <div class="contact-box">
             <h2>Get in Touch</h2>
-            <a href="mailto:sophie@example.com" class="contact-link">Email Me</a>
-            <a href="https://www.instagram.com/sophiesteele" target="_blank" class="social-link">
+            <a href="mailto:sophiesteele96@yahoo.com" class="icon-link">
+                <i class="fas fa-envelope"></i>
+                <!-- Email icon -->
+            </a>
+            <a href="https://www.instagram.com/sophiesteeley/" target="_blank" class="icon-link instagram">
                 <i class="fab fa-instagram"></i>
                 <!-- Instagram icon -->
             </a>
@@ -158,8 +149,6 @@
         <p>&copy; 2024 Sophie Steele's Horror Reels. All rights reserved.</p>
     </footer>
 
-    <!-- FontAwesome for social media icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
